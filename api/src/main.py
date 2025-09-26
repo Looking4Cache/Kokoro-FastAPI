@@ -18,6 +18,7 @@ from .routers.debug import router as debug_router
 from .routers.development import router as dev_router
 from .routers.openai_compatible import router as openai_router
 from .routers.web_player import router as web_router
+from .routers.why import router as why_router
 
 
 def setup_logger():
@@ -131,6 +132,7 @@ if settings.cors_enabled:
 app.include_router(openai_router, prefix="/v1")
 app.include_router(dev_router)  # Development endpoints
 app.include_router(debug_router)  # Debug endpoints
+app.include_router(why_router)  # Why TTS endpoints
 if settings.enable_web_player:
     app.include_router(web_router, prefix="/web")  # Web player static files
 
