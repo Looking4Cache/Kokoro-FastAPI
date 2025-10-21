@@ -44,10 +44,14 @@ dependencies = [
 
 [project.optional-dependencies]
 gpu = [
-    "torch==2.7.1+cu128",
+    "torch==2.4.1+cu124",
+    "torchvision==0.19.1+cu124",
+    "torchaudio==2.4.1+cu124",
 ]
 cpu = [
-    "torch==2.7.1",
+    "torch==2.4.1",
+    "torchvision==0.19.1",
+    "torchaudio==2.4.1",
 ]
 test = [
     "pytest==8.3.5",
@@ -71,6 +75,14 @@ torch = [
     { index = "pytorch-cpu", extra = "cpu" },
     { index = "pytorch-cuda", extra = "gpu" },
 ]
+torchvision = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cuda", extra = "gpu" },
+]
+torchaudio = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cuda", extra = "gpu" },
+]
 
 [[tool.uv.index]]
 name = "pytorch-cpu"
@@ -79,7 +91,7 @@ explicit = true
 
 [[tool.uv.index]]
 name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu128"
+url = "https://download.pytorch.org/whl/cu124"
 explicit = true
 
 [build-system]
