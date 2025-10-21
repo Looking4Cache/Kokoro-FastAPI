@@ -1,27 +1,56 @@
 name: kokoro-tts-gpu
+
+x-kokoro-common: &kokoro-common
+  build:
+    context: ../..
+    dockerfile: docker/gpu/Dockerfile
+  restart: unless-stopped
+  volumes:
+    - ../../api:/app/api
+    - /var/www/output:/output
+  user: "1001:1001"
+  environment:
+    - PYTHONPATH=/app:/app/api
+    - USE_GPU=true
+    - PYTHONUNBUFFERED=1
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+
 services:
-  kokoro-tts:
-    # image: ghcr.io/remsky/kokoro-fastapi-gpu:v${VERSION}
-    build:
-      context: ../..
-      dockerfile: docker/gpu/Dockerfile
-    volumes:
-      - ../../api:/app/api
-      - /var/www/output:/output
-    user: "1001:1001"  # Ensure container runs as UID 1001 (appuser)
+  kokoro-tts-0:
+    <<: *kokoro-common
     ports:
       - "8880:8880"
-    environment:
-      - PYTHONPATH=/app:/app/api
-      - USE_GPU=true
-      - PYTHONUNBUFFERED=1
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
+
+  kokoro-tts-1:
+    <<: *kokoro-common
+    ports:
+      - "8881:8880"
+
+  kokoro-tts-2:
+    <<: *kokoro-common
+    ports:
+      - "8882:8880"
+
+  kokoro-tts-3:
+    <<: *kokoro-common
+    ports:
+      - "8883:8880"
+
+  kokoro-tts-4:
+    <<: *kokoro-common
+    ports:
+      - "8884:8880"
+
+  kokoro-tts-5:
+    <<: *kokoro-common
+    ports:
+      - "8885:8880"
 
   # # Gradio UI service
   # gradio-ui:
